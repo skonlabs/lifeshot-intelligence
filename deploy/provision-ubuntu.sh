@@ -38,7 +38,7 @@ set -euo pipefail
 DOMAIN="${DOMAIN:-dev-api.lifeshot.ai}"
 REPO_URL="${REPO_URL:-https://github.com/skonlabs/lifeshot-intelligence.git}"
 BRANCH="${BRANCH:-main}"
-APP_DIR="${APP_DIR:-/opt/lifeshot-intelligence}"
+APP_DIR="${APP_DIR:-/var/www/lifeshot-intelligence}"
 APP_USER="${APP_USER:-lifeshot}"
 APP_GROUP="${APP_GROUP:-lifeshot}"
 SERVICE_NAME="${SERVICE_NAME:-lifeshot-intelligence}"
