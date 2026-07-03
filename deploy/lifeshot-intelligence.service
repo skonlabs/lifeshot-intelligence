@@ -1,0 +1,53 @@
+# systemd unit for the LIFESHOT Intelligence API.
+# Install: sudo cp deploy/lifeshot-intelligence.service /etc/systemd/system/
+#          sudo systemctl daemon-reload && sudo systemctl enable --now lifeshot-intelligence
+#
+# Runs as a dedicated NON-ROOT user with sandboxing. Only weights/ and tmp are
+# writable. Secrets come from an EnvironmentFile (chmod 600), never the unit.
+
+[Unit]
+Description=LIFESHOT Intelligence API (FastAPI + Gunicorn/Uvicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=lifeshot
+Group=lifeshot
+WorkingDirectory=/opt/lifeshot-intelligence
+
+# Secrets + config (chmod 600, owned by lifeshot). Contains OPENAI_API_KEY etc.
+EnvironmentFile=/opt/lifeshot-intelligence/.env
+Environment=DEEPFACE_HOME=/opt/lifeshot-intelligence/weights
+# Keep TensorFlow from grabbing all cores unpredictably; tune to hardware.
+Environment=OMP_NUM_THREADS=2
+Environment=TF_CPP_MIN_LOG_LEVEL=2
+
+ExecStart=/opt/lifeshot-intelligence/.venv/bin/gunicorn -c deploy/gunicorn.conf.py app.main:app
+
+# Graceful reload for near-zero-downtime deploys.
+ExecReload=/bin/kill -s HUP $MAINPID
+KillSignal=SIGTERM
+TimeoutStopSec=45
+Restart=on-failure
+RestartSec=3
+
+# --- sandboxing / hardening ---
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+# Only these paths are writable:
+ReadWritePaths=/opt/lifeshot-intelligence/weights
+
+# Resource caps (tune to host RAM; models are memory-heavy).
+LimitNOFILE=8192
+
+[Install]
+WantedBy=multi-user.target

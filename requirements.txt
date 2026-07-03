@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# LIFESHOT Intelligence API — runtime dependencies
+# Pin exact versions in production (pip-compile --generate-hashes). The ranges
+# below document intent; `requirements.lock` (generated on deploy) is authoritative.
+# ---------------------------------------------------------------------------
+
+# Web framework / server
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+gunicorn==23.0.0
+python-multipart==0.0.20          # multipart/form-data uploads
+
+# Config & validation
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# Face (the only place deepface is imported: app/face/service.py)
+deepface==0.0.93
+tf-keras==2.18.0                  # DeepFace needs Keras 2 API on TF 2.16+
+tensorflow==2.18.0               # CPU build; swap for tensorflow[and-cuda] for GPU
+
+# OpenAI (the only place openai is imported: app/common/openai_client.py)
+openai==1.59.6
+
+# Imaging / decode
+pillow==11.1.0
+pillow-heif==0.21.0              # HEIC/HEIF (iPhone photos)
+opencv-python==4.11.0.86
+numpy==2.0.2
+
+# PDF rasterization (app/common/pdf.py)
+pymupdf==1.25.1
+
+# OCR for redaction geometry (the only place OCR is imported: app/pii/service.py)
+pytesseract==0.3.13             # requires system `tesseract-ocr` binary
+# paddleocr==2.9.1              # alternative OCR engine (heavier); enable via OCR_ENGINE=paddle
+
+# HTTP client (SSRF-guarded url fetch)
+httpx==0.28.1
+
+# --- Optional: local NSFW provider (only needed if MODERATION_PROVIDER=local) ---
+# onnxruntime==1.20.1

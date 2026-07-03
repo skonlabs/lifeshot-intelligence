@@ -1,0 +1,27 @@
+# Secrets — only .env.example is committed
+.env
+*.env
+!.env.example
+
+# Project-local virtualenv (not vendored)
+.venv/
+venv/
+
+# DeepFace weights (DEEPFACE_HOME) — pre-downloaded on deploy, never committed
+weights/
+
+# Locked deps (generated on deploy host)
+requirements.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local scratch
+*.log
+scratch/
