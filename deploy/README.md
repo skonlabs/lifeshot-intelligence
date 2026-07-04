@@ -75,7 +75,7 @@ All are environment variables passed to the script (`sudo VAR=value bash …`).
 | `OPENAI_ENABLED` | `false` | `true` to enable documents/pii-text/moderation/scene. |
 | `OPENAI_API_KEY` | *(empty)* | Required when `OPENAI_ENABLED=true`. |
 | `GIT_TOKEN` | *(empty)* | PAT for cloning a private repo (not stored on disk). |
-| `APP_DIR` | `/opt/lifeshot-intelligence` | Install location. |
+| `APP_DIR` | `/var/www/lifeshot-intelligence` | Install location. |
 | `APP_USER` / `APP_GROUP` | `lifeshot` | Dedicated non-root service account. |
 | `SERVICE_NAME` | `lifeshot-intelligence` | systemd unit + nginx site name. |
 | `PYTHON_VERSION` | `3.11` | Installed via deadsnakes if absent. |
@@ -108,7 +108,7 @@ sudo ENABLE_TLS=true bash deploy/provision-ubuntu.sh
 - **Packages**: Python 3.11 (+venv, +dev), `libgl1`, `libglib2.0-0`,
   `tesseract-ocr` (OpenCV + OCR), `nginx`, `git`, `certbot` + nginx plugin.
 - **Service account**: `lifeshot` (system user, no login).
-- **App**: cloned to `/opt/lifeshot-intelligence`, venv at `.venv`, DeepFace
+- **App**: cloned to `/var/www/lifeshot-intelligence`, venv at `.venv`, DeepFace
   weights prefetched into `weights/`.
 - **`.env`**: written at `chmod 600`, owned by `lifeshot` (holds API keys /
   OpenAI key). Edit it and `systemctl restart lifeshot-intelligence` to apply.

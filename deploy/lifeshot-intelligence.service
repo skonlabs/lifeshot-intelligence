@@ -14,16 +14,16 @@ Wants=network-online.target
 Type=notify
 User=lifeshot
 Group=lifeshot
-WorkingDirectory=/opt/lifeshot-intelligence
+WorkingDirectory=/var/www/lifeshot-intelligence
 
 # Secrets + config (chmod 600, owned by lifeshot). Contains OPENAI_API_KEY etc.
-EnvironmentFile=/opt/lifeshot-intelligence/.env
-Environment=DEEPFACE_HOME=/opt/lifeshot-intelligence/weights
+EnvironmentFile=/var/www/lifeshot-intelligence/.env
+Environment=DEEPFACE_HOME=/var/www/lifeshot-intelligence/weights
 # Keep TensorFlow from grabbing all cores unpredictably; tune to hardware.
 Environment=OMP_NUM_THREADS=2
 Environment=TF_CPP_MIN_LOG_LEVEL=2
 
-ExecStart=/opt/lifeshot-intelligence/.venv/bin/gunicorn -c deploy/gunicorn.conf.py app.main:app
+ExecStart=/var/www/lifeshot-intelligence/.venv/bin/gunicorn -c deploy/gunicorn.conf.py app.main:app
 
 # Graceful reload for near-zero-downtime deploys.
 ExecReload=/bin/kill -s HUP $MAINPID
@@ -44,7 +44,7 @@ ProtectControlGroups=true
 RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 LockPersonality=true
 # Only these paths are writable:
-ReadWritePaths=/opt/lifeshot-intelligence/weights
+ReadWritePaths=/var/www/lifeshot-intelligence/weights
 
 # Resource caps (tune to host RAM; models are memory-heavy).
 LimitNOFILE=8192

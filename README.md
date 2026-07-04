@@ -202,9 +202,9 @@ Serving stack: **Gunicorn + Uvicorn workers → nginx → systemd**.
 
 ```bash
 # 1. lay down code + venv under /opt
-sudo mkdir -p /opt/lifeshot-intelligence && sudo chown lifeshot:lifeshot /opt/lifeshot-intelligence
-sudo -u lifeshot git -C /opt/lifeshot-intelligence clone <repo> .   # or rsync this folder
-cd /opt/lifeshot-intelligence
+sudo mkdir -p /var/www/lifeshot-intelligence && sudo chown lifeshot:lifeshot /var/www/lifeshot-intelligence
+sudo -u lifeshot git -C /var/www/lifeshot-intelligence clone <repo> .   # or rsync this folder
+cd /var/www/lifeshot-intelligence
 sudo -u lifeshot python3.11 -m venv .venv
 sudo -u lifeshot .venv/bin/pip install -r requirements.txt
 sudo apt-get install -y libgl1 libglib2.0-0 tesseract-ocr
@@ -214,7 +214,7 @@ sudo -u lifeshot cp .env.example .env && sudo chmod 600 .env   # then edit
 #    OPENAI_API_KEY comes from your secret manager, NOT git.
 
 # 3. pre-download weights (readable by the serving user)
-sudo -u lifeshot DEEPFACE_HOME=/opt/lifeshot-intelligence/weights .venv/bin/python scripts/download_weights.py
+sudo -u lifeshot DEEPFACE_HOME=/var/www/lifeshot-intelligence/weights .venv/bin/python scripts/download_weights.py
 
 # 4. systemd
 sudo cp deploy/lifeshot-intelligence.service /etc/systemd/system/
