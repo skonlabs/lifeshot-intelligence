@@ -4,12 +4,12 @@ This directory holds everything needed to run the API as a long-lived service
 behind nginx. There are two supported shapes:
 
 - **`provision-ubuntu.sh`** — one-shot installer for a fresh Ubuntu VM/instance
-  (EC2, DigitalOcean, bare metal). **Recommended for `dev-api.lifeshot.ai`.**
+  (EC2, DigitalOcean, bare metal). **Recommended for `dev-api.blueokra.ai`.**
 - **`../Dockerfile`** — container image for App Runner / ECS Fargate / any
   container host. (Amplify *Hosting* cannot run this app — it is static/SSR only.)
 
 Supporting files: `gunicorn.conf.py` (worker/timeouts), `nginx.conf` (reference
-site for `api.lifeshot.ai`), `lifeshot-intelligence.service` (reference systemd
+site for `api.blueokra.ai`), `lifeshot-intelligence.service` (reference systemd
 unit). `provision-ubuntu.sh` generates its own site + unit from these patterns.
 
 ---
@@ -30,9 +30,9 @@ sudo API_KEYS=my-dev-key \
 When it finishes, test it:
 
 ```bash
-curl -s https://dev-api.lifeshot.ai/health
+curl -s https://dev-api.blueokra.ai/health
 curl -s -H "X-API-Key: my-dev-key" -F file=@face.jpg \
-     https://dev-api.lifeshot.ai/v1/intelligence/face/detect | jq
+     https://dev-api.blueokra.ai/v1/intelligence/face/detect | jq
 ```
 
 The script is **idempotent** — re-running pulls the latest code, reinstalls
@@ -44,7 +44,7 @@ dependencies, and restarts the service (i.e. it doubles as your redeploy).
 
 The script cannot do these for you:
 
-1. **DNS** — an `A` record for your domain (default `dev-api.lifeshot.ai`)
+1. **DNS** — an `A` record for your domain (default `dev-api.blueokra.ai`)
    pointing at the instance's public IP.
 2. **Firewall / security group** — inbound TCP **80** and **443** open
    (plus **22** for SSH).
@@ -64,7 +64,7 @@ All are environment variables passed to the script (`sudo VAR=value bash …`).
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `DOMAIN` | `dev-api.lifeshot.ai` | Public hostname; nginx `server_name` + cert domain. |
+| `DOMAIN` | `dev-api.blueokra.ai` | Public hostname; nginx `server_name` + cert domain. |
 | `REPO_URL` | `https://github.com/skonlabs/lifeshot-intelligence.git` | Git repo to deploy. |
 | `BRANCH` | `main` | Branch to check out. |
 | `API_KEYS` | `my-dev-key` | Comma-separated API keys. **Change for real use.** |
@@ -85,7 +85,7 @@ All are environment variables passed to the script (`sudo VAR=value bash …`).
 Private repo + OpenAI features, production mode:
 
 ```bash
-sudo DOMAIN=dev-api.lifeshot.ai \
+sudo DOMAIN=dev-api.blueokra.ai \
      GIT_TOKEN=ghp_xxx \
      BRANCH=main \
      APP_ENV=production \

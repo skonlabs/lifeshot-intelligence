@@ -3,7 +3,7 @@
 # LIFESHOT Intelligence API — one-shot Ubuntu provisioner
 #
 # Fresh Ubuntu 22.04 / 24.04 instance -> a working HTTPS API at:
-#     https://dev-api.lifeshot.ai/v1/intelligence/<capability>
+#     https://dev-api.blueokra.ai/v1/intelligence/<capability>
 #
 # It installs every prerequisite (Python 3.11, OpenCV/OCR system libs, nginx,
 # certbot), clones + builds the app into /opt/lifeshot-intelligence, runs it
@@ -12,7 +12,7 @@
 # deps, and restarts (a redeploy).
 #
 # USAGE
-#   sudo DOMAIN=dev-api.lifeshot.ai \
+#   sudo DOMAIN=dev-api.blueokra.ai \
 #        REPO_URL=https://github.com/skonlabs/lifeshot-intelligence.git \
 #        BRANCH=main \
 #        API_KEYS=my-dev-key \
@@ -35,10 +35,10 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 # Config (override any of these via environment variables)
 # ---------------------------------------------------------------------------
-DOMAIN="${DOMAIN:-dev-api.lifeshot.ai}"
+DOMAIN="${DOMAIN:-dev-api.blueokra.ai}"
 REPO_URL="${REPO_URL:-https://github.com/skonlabs/lifeshot-intelligence.git}"
 BRANCH="${BRANCH:-main}"
-APP_DIR="${APP_DIR:-/var/www/lifeshot-intelligence}"
+APP_DIR="${APP_DIR:-/opt/lifeshot-intelligence}"
 APP_USER="${APP_USER:-lifeshot}"
 APP_GROUP="${APP_GROUP:-lifeshot}"
 SERVICE_NAME="${SERVICE_NAME:-lifeshot-intelligence}"

@@ -11,7 +11,7 @@ A performance-critical HTTP API for multimodal image intelligence:
 | **Scene** | natural-language caption + structured facets for library search | OpenAI vision + Structured Outputs |
 
 Runtime: **Python 3.11 · FastAPI + Uvicorn · Pydantic v2**. Public base URL
-`https://api.lifeshot.ai`; every capability is namespaced under
+`https://api.blueokra.ai`; every capability is namespaced under
 `/v1/intelligence/`.
 
 ---
@@ -223,7 +223,7 @@ sudo systemctl daemon-reload && sudo systemctl enable --now lifeshot-intelligenc
 # 5. nginx + TLS
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/lifeshot-intelligence
 sudo ln -s /etc/nginx/sites-available/lifeshot-intelligence /etc/nginx/sites-enabled/
-sudo certbot --nginx -d api.lifeshot.ai         # Let's Encrypt, auto-renews
+sudo certbot --nginx -d api.blueokra.ai         # Let's Encrypt, auto-renews
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
